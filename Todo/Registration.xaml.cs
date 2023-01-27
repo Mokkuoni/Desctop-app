@@ -23,5 +23,33 @@ namespace Todo
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            Manager.CurrectWindow.Show();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            ValidateRegistration(this);
+            if (Validator.Errors.Any())
+                MessageBox.Show(string.Join(Environment.NewLine, Validator.Errors));
+            else
+            {
+                var MainEmpty = new MainEmpty();
+                MainEmpty.Show();
+                Close();
+            }
+        }
+
+        private void ValidateRegistration(Registration registration)
+        {
+            Validator.Errors.Clear();
+            Validator.ValidateName(registration.Name.Text);
+            Validator.ValidateEmail(registration.post.Text);
+            Validator.ValidatePassword(registration.Password.Text);
+            Validator.PasswordsEquality(registration.Password.Text, registration.PasswordConfirmation.Text);
+        }
     }
 }

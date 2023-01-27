@@ -7,6 +7,63 @@
         <Style TargetType="Label">
             <Setter Property="FontFamily" Value="Actor"></Setter>
         </Style>
+        <Style TargetType="Button" x:Key="TopRoundButtonStyle">
+            <Setter Property="Background" Value="#F96060"></Setter>
+            <Setter Property="Width" Value="327"></Setter>
+            <Setter Property="Height" Value="48"></Setter>
+            <Setter Property="FontFamily" Value="Actor"></Setter>
+            <Setter Property="FontSize" Value="18"></Setter>
+            <Setter Property="Foreground" Value="#FFFFFF"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border BorderThickness="0"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="10,10,0,0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button" x:Key="BottomRoundButtonStyle">
+            <Setter Property="Background" Value="#F96060"></Setter>
+            <Setter Property="Width" Value="327"></Setter>
+            <Setter Property="Height" Value="48"></Setter>
+            <Setter Property="FontFamily" Value="Actor"></Setter>
+            <Setter Property="FontSize" Value="18"></Setter>
+            <Setter Property="Foreground" Value="#FFFFFF"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border BorderThickness="0"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="0,0,10,10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button" x:Key="BottomAll">
+            <Setter Property="Background" Value="#F96060"></Setter>
+            <Setter Property="Width" Value="327"></Setter>
+            <Setter Property="Height" Value="48"></Setter>
+            <Setter Property="FontFamily" Value="Actor"></Setter>
+            <Setter Property="FontSize" Value="18"></Setter>
+            <Setter Property="Foreground" Value="#FFFFFF"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border BorderThickness="0"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="10,10,10,10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         
     </Application.Resources>
     

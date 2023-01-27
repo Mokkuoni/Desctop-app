@@ -22,6 +22,23 @@ namespace Todo
         public Login()
         {
             InitializeComponent();
+            Manager.CurrectWindow = this;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var Registration = new Registration();
+            Registration.Show();
+            this.Visibility = Visibility.Collapsed;
+            Manager.CurrectWindow.Hide();
+            Manager.CurrectWindow.Show();
+            Manager.CurrectWindow.Close();
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }
