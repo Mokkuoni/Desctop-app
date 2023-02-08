@@ -23,9 +23,9 @@
             <Label Content="Почта"  FontSize="20" Padding="0 210 0 9.77" />
             <TextBox x:Name="post" Width="326" Height="37.23" BorderThickness="0,0,0,1" FontFamily="Actor" />
             <Label Content="Пароль"  FontSize="20" Padding="0 32 0 9.77" />
-            <TextBox Height="37.23" BorderThickness="0,0,0,1" />
+            <TextBox x:Name="Password" Height="37.23" BorderThickness="0,0,0,1" />
             <Label Content="Восстановить пароль"  FontSize="18" HorizontalAlignment="Right" Padding="0 12 0 16" />
-            <Button Content="Войти" Style="{StaticResource TopRoundButtonStyle}" Margin="0 9 0 5" />
+            <Button Content="Войти" Style="{StaticResource TopRoundButtonStyle}" Margin="0 9 0 5" Click="Button_Click_1"/>
             <Button Content="Регистрация" Style="{StaticResource BottomRoundButtonStyle}" Margin="0 5 0 0" Click="Button_Click"/>
         </WrapPanel>
         <WrapPanel Orientation="Vertical" Grid.RowSpan="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="70 70"  >

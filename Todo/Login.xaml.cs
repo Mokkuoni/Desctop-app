@@ -38,7 +38,24 @@ namespace Todo
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            
+            ValidateLogin(this);
+            if (Validator.Errors.Any())
+                MessageBox.Show(string.Join(Environment.NewLine, Validator.Errors));
+            else
+            {
+                var MainEmpty = new MainEmpty();
+                MainEmpty.Show();
+                Close();
+            }
+
         }
+
+        private void ValidateLogin(Login login)
+        {
+            Validator.Errors.Clear();
+            Validator.ValidateEmail(login.post.Text);
+            Validator.ValidatePassword(login.Password.Text);
+        }
+        
     }
 }
