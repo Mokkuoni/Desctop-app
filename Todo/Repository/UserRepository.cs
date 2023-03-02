@@ -10,7 +10,8 @@ namespace Todo.Repository
 {
     internal class UserRepository
     {
-        private static List<UserModel> _users = new();
+        private static List<UserModel> _users = new ();
+
 
         public UserModel? Authorize(string Password, string post)
         {

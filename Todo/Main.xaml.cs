@@ -17,12 +17,11 @@ namespace Todo
     /// <summary>
     /// Логика взаимодействия для Window1.xaml
     /// </summary>
-    public partial class MainEmpty : Window
+    public partial class Main : Window
     {
-        public MainEmpty(string Name)
+        public Main()
         {
             InitializeComponent();
-            username.Text = Name;
         }
     }
 }
