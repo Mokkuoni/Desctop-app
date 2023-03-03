@@ -39,8 +39,8 @@ namespace Todo
             else
             {
                 MessageBox.Show("Пользователь успешно зарегестрирован!");
-                var login = new Login();
-                login.Show();
+                var mainEmpty = new MainEmpty(Name.Text);
+                mainEmpty.Show();
                 Close();
             }
         }
