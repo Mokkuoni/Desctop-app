@@ -67,9 +67,10 @@ namespace Todo
         private void DoneButton_OnClick(object sender, RoutedEventArgs e)
         {
             var task = (TaskModel)TasksList.SelectedItem;
+            _tasks.Remove(task);
             task.IsDone = true;
-            task.CheckboxColor = Brushes.Red;
-            //task.CheckboxColor = new SolidColorBrush(Colors.Red);
+            task.CheckboxColor = new SolidColorBrush(Colors.Red);
+            _tasks.Add(task);
             TaskFullContent.Visibility = Visibility.Hidden;
         }
 
