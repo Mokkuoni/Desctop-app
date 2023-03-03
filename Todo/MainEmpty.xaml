@@ -25,7 +25,7 @@
             <Label Content="Создайте свою первую задачу!" FontSize="38" />
         </WrapPanel>
         <WrapPanel Orientation="Vertical" Grid.RowSpan="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin=" 100 150">
-            <Button x:Name="Go" Content="Создать первую задачу" Style="{StaticResource BottomAll}" />
+            <Button x:Name="Go" Content="Создать первую задачу" Style="{StaticResource BottomAll}" Click="Go_Click"/>
         </WrapPanel>
     </Grid>
 </Window>

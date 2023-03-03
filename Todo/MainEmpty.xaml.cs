@@ -14,15 +14,21 @@ using System.Windows.Shapes;
 
 namespace Todo
 {
-    /// <summary>
-    /// Логика взаимодействия для Window1.xaml
-    /// </summary>
     public partial class MainEmpty : Window
     {
+        private string userName;
         public MainEmpty(string Name)
         {
             InitializeComponent();
-            username.Text = Name;
+            userName = Name;
+            username.Text = userName;
+        }
+
+        private void Go_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.CurrectWindow.Close();
+            var main = new Main(userName);
+            main.Show();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,7 +54,7 @@ namespace Todo
                     MessageBox.Show(string.Join(Environment.NewLine, Validator.Errors));
                 else
                 {
-                    var MainEmpty = new MainEmpty(user.Name);
+                    var MainEmpty = new MainEmpty(Name);
                     MainEmpty.Show();
                     Manager.CurrectWindow.Hide();
                 }
