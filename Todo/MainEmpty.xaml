@@ -16,7 +16,7 @@
         </Grid.ColumnDefinitions>
         <WrapPanel Orientation="Vertical" Grid.RowSpan="1" HorizontalAlignment="Left" VerticalAlignment="Top"   >
             <Image Width="75" Source="C:\Users\USER\Desktop\desctop\img\Profile.png"/>
-            <TextBlock x:Name="username"/>
+            <TextBlock x:Name="username" Margin="0 10 10 0" HorizontalAlignment="Center"/>
         </WrapPanel>
         <WrapPanel Orientation="Vertical" Grid.RowSpan="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin=" 100">
             <Label Content="Добро пожаловать!" FontSize="38" />

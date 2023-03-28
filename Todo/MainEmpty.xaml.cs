@@ -27,8 +27,8 @@ namespace Todo
         private void Go_Click(object sender, RoutedEventArgs e)
         {
             Manager.CurrectWindow.Close();
-            var main = new Main(userName);
-            main.Show();
+            var addTasks = new AddTasks();
+            addTasks.Show();
         }
     }
 }

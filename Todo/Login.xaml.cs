@@ -54,8 +54,8 @@ namespace Todo
                     MessageBox.Show(string.Join(Environment.NewLine, Validator.Errors));
                 else
                 {
-                    var MainEmpty = new MainEmpty(Name);
-                    MainEmpty.Show();
+                    var Main = new Main(Name);
+                    Main.Show();
                     Manager.CurrectWindow.Hide();
                 }
             }

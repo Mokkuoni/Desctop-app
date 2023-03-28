@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,26 +12,25 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Todo.XXX;
 using Todo.Entities;
-using System.Collections.ObjectModel;
+using Todo.XXX;
 
 namespace Todo
 {
-    public partial class Main : Window
+    /// <summary>
+    /// Логика взаимодействия для History.xaml
+    /// </summary>
+    public partial class History : Window
     {
         private ObservableCollection<TasksCategory> _tasksCategory;
         private List<SolidColorBrush> _colors;
-        private History _history;
-        public ObservableCollection<TaskModel> _tasks { get; set; }
-        
+        public ObservableCollection<TaskModel> Tasks;
 
-        public Main(string userName)
+        public History(string userName)
         {
+            Tasks = new();
             InitializeComponent();
-            Manager.CurrectWindow = this;
             UserNameTextBlock.Text = userName;
-            _history = new History(UserNameTextBlock.Text);
 
             _colors = new List<SolidColorBrush>
             {
@@ -45,26 +48,7 @@ namespace Todo
                 new TasksCategory {Title = "Отдых", TextColor = _colors[3]},
             };
             MenuList.ItemsSource = _tasksCategory;
-
-            _tasks = new ObservableCollection<TaskModel>();
-            TasksList.ItemsSource = _tasks;
-        }
-
-        private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            var task = (TaskModel)TasksList.SelectedItem;
-            _tasks.Remove(task);
-        }
-
-        private void DoneButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            var task = (TaskModel)TasksList.SelectedItem;
-            _tasks.Remove(task);
-            task.IsDone = true;
-            task.CheckboxColor = new SolidColorBrush(Colors.Red);
-            _tasks.Add(task);
-            _history.Tasks.Add(task);
-            TaskFullContent.Visibility = Visibility.Hidden;
+            TasksList.ItemsSource = Tasks;
         }
 
         private void TasksList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -81,19 +65,12 @@ namespace Todo
                 TaskFullContent.Visibility = Visibility.Hidden;
         }
 
-        private void HistoryButton_Click(object sender, RoutedEventArgs e)
+        private void TasksButton_Click(object sender, RoutedEventArgs e)
         {
-            _history.Show();
             Manager.CurrectWindow.Hide();
-        }
+            var main = new Main(Name);
+            main.Show();            
 
-        private void AddTaskButton_Click(object sender, RoutedEventArgs e)
-        {
-            var addTasks = new AddTasks();
-            addTasks.Show();
-            Manager.CurrectWindow.Hide();
-        }
-
+        } 
     }
 }
-
