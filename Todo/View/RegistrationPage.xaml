@@ -1,13 +1,14 @@
-﻿<Window x:Class="Todo.Registration"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Todo"
-        mc:Ignorable="d"
-        Title="Registation" Height="600" Width="800">
+﻿<Page x:Class="Todo.View.RegistrationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Todo.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="RegistrationPage">
 
-    <Grid>
+    <Grid Background="#FFFFFF">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -26,11 +27,12 @@
             <TextBox x:Name="Password" Height="37.23" BorderThickness="0,0,0,1" />
             <Label Content="Повторите пароль" FontFamily="Actor" FontSize="20" Padding="0 10 0 9.77" />
             <TextBox x:Name="PasswordConfirmation" Height="37.23" BorderThickness="0,0,0,1" />
-            <Button Content="Зарегестрироваться"  Click="Button_Click_1" FontFamily="Actor" Style="{StaticResource TopRoundButtonStyle}" Margin="0 16 0 5"  />
-            <Button Content="Назад" Click="Button_Click" Style="{StaticResource BottomRoundButtonStyle}"  Margin="0 5 0 0" />
+            <Button Content="Зарегестрироваться" FontFamily="Actor" Style="{StaticResource TopRoundButtonStyle}" Margin="0 16 0 5" Click="Registration_Click" />
+            <Button Content="Назад"  Style="{StaticResource BottomRoundButtonStyle}"  Margin="0 5 0 0" Click="Back_Click"/>
         </WrapPanel>
         <WrapPanel Orientation="Vertical" Grid.RowSpan="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="70 70"  >
             <Image Width="149" Source="C:\Users\USER\Desktop\desctop\img\logo.jpg"/>
         </WrapPanel>
+        
     </Grid>
-</Window>
+</Page>

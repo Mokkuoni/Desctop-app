@@ -1,73 +1,14 @@
-﻿<Window x:Class="Todo.History"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Todo"
-        mc:Ignorable="d"
-        Title="History" Height="450" Width="800">
-    <Window.Resources>
-        <DataTemplate x:Key="listTemplate">
-            <StackPanel>
-                <TextBlock 
-                    FontSize="16"
-                    Foreground="{Binding Path=TextColor}"
-                    Text="{Binding Path=Title}"
-                    Margin="6">
-                </TextBlock>
-            </StackPanel>
-        </DataTemplate>
-        <DataTemplate x:Key="listTaskTemplate">
-            <StackPanel
-                Orientation="Horizontal"
-                Margin="0 0 10 0"
-                Background="#F5F5F5">
-                <StackPanel.Effect>
-                    <DropShadowEffect
-                        ShadowDepth="2"
-                        Direction="260"
-                        Color="#9B9B9B"
-                        Opacity="0.2"
-                        BlurRadius="10"/>
-                </StackPanel.Effect>
-                <CheckBox
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Margin="22"
-                BorderThickness="3"
-                BorderBrush="#6074F9"
-                Background="{Binding CheckboxColor}"
-                IsChecked="True"
-                Name="IsCheckBox">
-                    <CheckBox.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="8"/>
-                        </Style>
-                    </CheckBox.Resources>
-                </CheckBox>
-                <WrapPanel
-                    Orientation="Vertical"
-                    HorizontalAlignment="Stretch">
-                    <TextBlock
-                        TextDecorations="Strikethrough"
-                        MaxWidth="200"
-                        HorizontalAlignment="Left"
-                        Foreground="#9B9B9B"
-                        Text="{Binding Path=TaskText}"
-                        Padding="0 10 10 0"
-                        TextTrimming="WordEllipsis"/>
-                    <TextBlock
-                        TextDecorations="Strikethrough"
-                        Name="TaskTimeTextBlock"
-                        VerticalAlignment="Bottom"
-                        Foreground="#9B9B9B"
-                        Text="{Binding Path=DisplayTime}"/>
-                </WrapPanel>
-            </StackPanel>
-        </DataTemplate>
-    </Window.Resources>
+﻿<Page x:Class="Todo.View.HistoryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Todo.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="HistoryPage">
 
-    <Grid>
+    <Grid Background="#FFFFFF">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -102,7 +43,7 @@
             Grid.Row="2"
             Margin="0 50 10 0"
             HorizontalAlignment="Center">
-            <Button Name="TasksButton" Click="TasksButton_Click" BorderBrush="#F5F5F5" Background="#F5F5F5" Foreground="#690000" Content="Задачи" HorizontalAlignment="Left"></Button>
+            <Button Name="TasksButton"  BorderBrush="#F5F5F5" Background="#F5F5F5" Foreground="#690000" Content="Задачи" HorizontalAlignment="Left" Click="TasksButton_Click"></Button>
             <Button Name="HistoryButton" Margin="0,20,0,0" BorderBrush="#F5F5F5" Background="#F5F5F5" Foreground="#690000" Content="История"></Button>
         </StackPanel>
 
@@ -113,7 +54,7 @@
             HorizontalContentAlignment="Stretch"
             x:Name="MenuList"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-            ItemTemplate="{StaticResource listTemplate}"
+            ItemTemplate="{StaticResource listTemplateHistory}"
             Background="#F5F5F5">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -130,7 +71,7 @@
                 BorderThickness="0"
                 x:Name="TasksList"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                ItemTemplate="{StaticResource listTaskTemplate}"
+                ItemTemplate="{StaticResource listTaskTemplateHistory}"
                 SelectionChanged="TasksList_OnSelectionChanged"
                 Background="#F5F5F5">
             <ListBox.ItemsPanel>
@@ -139,15 +80,6 @@
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
-
-        <WrapPanel
-            Grid.Column="0"
-            Grid.Row="3"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Height="90">
-            
-        </WrapPanel>
 
         <Border
             Name="TaskFullContent"
@@ -183,4 +115,4 @@
             </StackPanel>
         </Border>
     </Grid>
-</Window>
+</Page>

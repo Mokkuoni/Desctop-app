@@ -10,6 +10,7 @@ namespace Todo
 {
     public static class Manager
     {
+        public static Frame? MainFrame { get; set; }
         public static Window CurrectWindow { get; set; }
     }
 }

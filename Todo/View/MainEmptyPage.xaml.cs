@@ -10,25 +10,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Todo
+namespace Todo.View
 {
-    public partial class MainEmpty : Window
+    /// <summary>
+    /// Логика взаимодействия для MainEmptyPage.xaml
+    /// </summary>
+    public partial class MainEmptyPage : Page
     {
-        private string userName;
-        public MainEmpty(string Name)
+        public MainEmptyPage(string userName)
         {
             InitializeComponent();
-            userName = Name;
             username.Text = userName;
         }
-
-        private void Go_Click(object sender, RoutedEventArgs e)
-        {
-            Manager.CurrectWindow.Close();
-            var addTasks = new AddTasks();
-            addTasks.Show();
-        }
+        private void CreateTask_Click(object sender, RoutedEventArgs e) => Manager.MainFrame?.Navigate(new AddTaskPage(username.Text));
     }
 }

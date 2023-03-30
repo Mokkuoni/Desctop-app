@@ -12,7 +12,7 @@ namespace Todo.Entities
 
         public string? TaskText { get; set; }
 
-        public SolidColorBrush CheckboxColor { get; set; }
+        public SolidColorBrush? CheckboxColor { get; set; }
 
         public string? DisplayTime { get; set; }
     }

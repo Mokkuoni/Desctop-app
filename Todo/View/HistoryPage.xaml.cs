@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,22 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Todo.Entities;
 using Todo.XXX;
+using System.Collections.ObjectModel;
 
-namespace Todo
+namespace Todo.View
 {
     /// <summary>
-    /// Логика взаимодействия для History.xaml
+    /// Логика взаимодействия для HistoryPage.xaml
     /// </summary>
-    public partial class History : Window
+    public partial class HistoryPage : Page
     {
-        private ObservableCollection<TasksCategory> _tasksCategory;
-        private List<SolidColorBrush> _colors;
+        private readonly ObservableCollection<TasksCategory> _tasksCategory;
+        private readonly List<SolidColorBrush> _colors;
         public ObservableCollection<TaskModel> Tasks;
-
-        public History(string userName)
+        public HistoryPage(string userName)
         {
             Tasks = new();
             InitializeComponent();
@@ -50,7 +50,6 @@ namespace Todo
             MenuList.ItemsSource = _tasksCategory;
             TasksList.ItemsSource = Tasks;
         }
-
         private void TasksList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (TasksList.SelectedItem is TaskModel task)
@@ -65,12 +64,6 @@ namespace Todo
                 TaskFullContent.Visibility = Visibility.Hidden;
         }
 
-        private void TasksButton_Click(object sender, RoutedEventArgs e)
-        {
-            Manager.CurrectWindow.Hide();
-            var main = new Main(Name);
-            main.Show();            
-
-        } 
+        private void TasksButton_Click(object sender, RoutedEventArgs e) => Manager.MainFrame?.Navigate(new MainPage(UserNameTextBlock.Text));
     }
 }
