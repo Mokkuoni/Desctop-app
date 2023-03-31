@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Todo.View;
+using System.Windows.Media.Animation;
 
 namespace Todo
 {
@@ -26,6 +27,12 @@ namespace Todo
             InitializeComponent();
             MainWindowFrame.Navigate(new LoginPage());
             Manager.MainFrame = MainWindowFrame;
+
+            DoubleAnimation frameAnimation = new();
+            frameAnimation.From = 0;
+            frameAnimation.To = Width;
+            frameAnimation.Duration = TimeSpan.FromSeconds(3);
+            BeginAnimation(WidthProperty, frameAnimation);
         }
     }
 }

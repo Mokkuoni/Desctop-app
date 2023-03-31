@@ -32,6 +32,6 @@
         <WrapPanel Orientation="Vertical" Grid.RowSpan="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="70 70"  >
             <Image Width="149" Source="C:\Users\USER\Desktop\desctop\img\logo.jpg"/>
         </WrapPanel>
-
+        
     </Grid>
 </Page>
