@@ -47,21 +47,12 @@
             <Button Name="HistoryButton" Margin="0,20,0,0" BorderBrush="#F5F5F5" Background="#F5F5F5" Foreground="#690000" Content="История"></Button>
         </StackPanel>
 
-        <ListBox
-            BorderThickness="0"
-            Grid.Column="1"
-            VerticalAlignment="Bottom"
-            HorizontalContentAlignment="Stretch"
-            x:Name="MenuList"
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-            ItemTemplate="{StaticResource listTemplateHistory}"
-            Background="#F5F5F5">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
+        <WrapPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" >
+            <Button x:Name="HomeButton" Click="HomeButton_Click" Margin="8" Background="White" BorderBrush="White" Foreground="#FF60C852">Дом</Button>
+            <Button x:Name="WorkButton" Click="WorkButton_Click" Margin="8" Background="White" BorderBrush="White" Foreground="#FFE95252">Работа</Button>
+            <Button x:Name="StudyButton" Click="StudyButton_Click" Margin="8" Background="White" BorderBrush="White" Foreground="#FF2E56A1">Учёба</Button>
+            <Button x:Name="ChillButton" Click="ChillButton_Click" Margin="8" Background="White" BorderBrush="White" Foreground="#FFE551F3">Отдых</Button>
+        </WrapPanel>
 
         <ListBox
                 Grid.Column="1"

@@ -13,7 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Todo.Entities;
-
+using Todo.Repository;
+using Todo.Responses;
 
 namespace Todo.View
 {
@@ -22,11 +23,17 @@ namespace Todo.View
     /// </summary>
     public partial class AddTaskPage : Page
     {
-        private readonly string _userName;
-        public AddTaskPage(string userName)
+        private readonly TodoRepository _todoRepository;
+        private readonly AuthResponse _authResponse;
+        public AddTaskPage(AuthResponse response)
         {
             InitializeComponent();
-            _userName = userName;
+            _authResponse = response;
+            _todoRepository = new TodoRepository(response.access_token);
+            Category.ItemsSource = new List<string>()
+            {
+                "Дом","Работа","Учёба","Отдых"
+            };
         }
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
@@ -55,17 +62,35 @@ namespace Todo.View
                 return;
             }
 
-            var task = new TaskModel()
+            var result = _todoRepository.CreateTodo(Category.SelectedItem as string, NameTask.Text, Content.Text, DateTime.Parse(DateTaskPicker.Text));
+            if (result.ToLower() == "successfully")
             {
-                Title = NameTask.Text,
-                TaskDateTime = DateTime.Parse(DateTaskPicker.Text),
-                DisplayTime = DateTime.Parse(TaskTimePicker.Text).ToString("hh:mm tt"),
-                TaskText = Content.Text,
-            };
-            task.TaskDateTime.Add(DateTime.Parse(TaskTimePicker.Text).TimeOfDay);
-            var main = new MainPage(_userName);
-            main.Tasks.Add(task);
-            Manager.MainFrame?.Navigate(main);
+                var main = new MainPage(_authResponse)
+                {
+                    Todos = _todoRepository.GetAllTodos(),
+                };
+                Manager.MainFrame?.Navigate(main);
+            }
+            else
+            {
+                MessageBox.Show("При создании заметки произошла ошибка", "Предупреждение об ошибке", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+        }
+
+        private void Category_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectorCategory = Category.SelectedItem as string;
+            if (string.IsNullOrEmpty(selectorCategory))
+            {
+                switch (selectorCategory)
+                {
+                    case "Дом": break;
+                    case "Работа": break;
+                    case "Учёба": break;
+                    case "Отдых": break;
+                }
+            }
         }
     }
 }

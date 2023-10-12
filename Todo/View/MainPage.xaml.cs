@@ -15,6 +15,9 @@ using System.Windows.Shapes;
 using Todo.XXX;
 using System.Collections.ObjectModel;
 using Todo.Entities;
+using Todo.Responses;
+using Todo.Repository;
+using System.Linq;
 
 namespace Todo.View
 {
@@ -25,14 +28,20 @@ namespace Todo.View
     {
         private ObservableCollection<TasksCategory> _tasksCategory;
         private List<SolidColorBrush> _colors;
-        private HistoryPage _historyPage;
+        public HistoryPage _historyPage;
+        private AuthResponse _authResponse;
+        private TodoRepository _todoRepository;
 
         public ObservableCollection<TaskModel> Tasks { get; set; }
-        public MainPage(string userName)
+        public List<TodoModel> Todos { get; set; }
+
+        public MainPage(AuthResponse response)
         {
             InitializeComponent();
-            UserNameTextBlock.Text = userName;
-            _historyPage = new HistoryPage(UserNameTextBlock.Text);
+            _authResponse = response;
+            UserNameTextBlock.Text = response.User.Name;
+            _todoRepository = new TodoRepository(response.access_token);
+            _historyPage = new HistoryPage(response);
 
             _colors = new List<SolidColorBrush>
             {
@@ -41,33 +50,33 @@ namespace Todo.View
                 new SolidColorBrush(Colors.Blue),
                 new SolidColorBrush(Colors.Purple)
             };
-
-            _tasksCategory = new ObservableCollection<TasksCategory>
-            {
-                new TasksCategory {Title = "Дом", TextColor = _colors[1]},
-                new TasksCategory {Title = "Работа", TextColor = _colors[0]},
-                new TasksCategory {Title = "Учёба", TextColor = _colors[2]},
-                new TasksCategory {Title = "Отдых", TextColor = _colors[3]},
-            };
-            MenuList.ItemsSource = _tasksCategory;
-
-            Tasks = new ObservableCollection<TaskModel>();
+            Todos = _todoRepository.GetAllTodos();
+            Tasks = InitTasks();
             TasksList.ItemsSource = Tasks;
         }
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
         {
             var task = (TaskModel)TasksList.SelectedItem;
+            var result = _todoRepository.DeleteTodo(Todos.Where(todo => todo.Title == task.Title && todo.Description == task.TaskText).Select(todo => todo.Id).FirstOrDefault() ?? "");
+            if (result)
+                MessageBox.Show("Заметка успешно удалена", "Уведомление об операции", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
+                MessageBox.Show("Заметку не удалось удалить", "Уведомление об операции", MessageBoxButton.OK, MessageBoxImage.Information);
             Tasks.Remove(task);
         }
 
         private void DoneButton_OnClick(object sender, RoutedEventArgs e)
         {
             var task = (TaskModel)TasksList.SelectedItem;
-            Tasks.Remove(task);
-            task.IsDone = true;
-            task.CheckboxColor = new SolidColorBrush(Colors.Red);
-            Tasks.Add(task);
-            _historyPage.Tasks.Add(task);
+            var todoId = Todos.Where(todo => todo.Title == task.Title && todo.Description == task.TaskText).Select(todo => todo.Id).FirstOrDefault() ?? "";
+            var changedTodo = _todoRepository.MarkTodo(todoId);
+            if (changedTodo)
+                MessageBox.Show("Заметка успешно изменена", "Уведомление об операции", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
+                MessageBox.Show("Заметку не удалось изменить", "Уведомление об операции", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            _historyPage.Todos = _todoRepository.GetAllTodos();
+            _historyPage.Tasks = _historyPage.InitTasks();
             TaskFullContent.Visibility = Visibility.Hidden;
         }
 
@@ -84,9 +93,58 @@ namespace Todo.View
             else
                 TaskFullContent.Visibility = Visibility.Hidden;
         }
-
-        private void AddTaskButton_Click(object sender, RoutedEventArgs e) => Manager.MainFrame?.Navigate(new AddTaskPage(UserNameTextBlock.Text));
+        private ObservableCollection<TaskModel> InitTasks()
+        {
+            var tasks = new ObservableCollection<TaskModel>();
+            if (Todos != null && Todos.Any())
+            {
+                foreach (var todo in Todos)
+                {
+                    var taskModel = new TaskModel()
+                    {
+                        Title = todo.Title,
+                        TaskDateTime = DateTimeOffset.FromUnixTimeSeconds(todo.Date).UtcDateTime,
+                        IsDone = todo.IsCompleted,
+                        DisplayTime = todo.Date.ToString(),
+                        TaskText = todo.Description,
+                    };
+                    if (!taskModel.IsDone)
+                        taskModel.CheckboxColor = Brushes.White;
+                    tasks.Add(taskModel);
+                }
+            }
+            return tasks;
+        }
+        private void AddTaskButton_Click(object sender, RoutedEventArgs e) => Manager.MainFrame?.Navigate(new AddTaskPage(_authResponse));
 
         private void HistoryButton_Click(object sender, RoutedEventArgs e) => Manager.MainFrame?.Navigate(_historyPage);
+
+        private void HomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Todos = _todoRepository.GetAllTodos().Where(t => t.Category == "Дом").ToList();
+            Tasks = InitTasks();
+            TasksList.ItemsSource = Tasks;
+        }
+
+        private void WorkButton_Click(object sender, RoutedEventArgs e)
+        {
+            Todos = _todoRepository.GetAllTodos().Where(t => t.Category == "Работа").ToList();
+            Tasks = InitTasks();
+            TasksList.ItemsSource = Tasks;
+        }
+
+        private void StudyButton_Click(object sender, RoutedEventArgs e)
+        {
+            Todos = _todoRepository.GetAllTodos().Where(t => t.Category == "Учёба").ToList();
+            Tasks = InitTasks();
+            TasksList.ItemsSource = Tasks;
+        }
+
+        private void ChillButton_Click(object sender, RoutedEventArgs e)
+        {
+            Todos = _todoRepository.GetAllTodos().Where(t => t.Category == "Отдых").ToList();
+            Tasks = InitTasks();
+            TasksList.ItemsSource = Tasks;
+        }
     }
 }

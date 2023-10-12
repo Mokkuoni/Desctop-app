@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using Todo.Entities;
 using Todo.XXX;
 using System.Collections.ObjectModel;
+using Todo.Repository;
+using Todo.Responses;
 
 namespace Todo.View
 {
@@ -26,11 +28,14 @@ namespace Todo.View
         private readonly ObservableCollection<TasksCategory> _tasksCategory;
         private readonly List<SolidColorBrush> _colors;
         public ObservableCollection<TaskModel> Tasks;
-        public HistoryPage(string userName)
+        private TodoRepository _todoRepository;
+        public List<TodoModel> Todos { get; set; }
+        public HistoryPage(AuthResponse authResponse)
         {
             Tasks = new();
             InitializeComponent();
-            UserNameTextBlock.Text = userName;
+            UserNameTextBlock.Text = authResponse.User.Name;
+            _todoRepository = new TodoRepository(authResponse.access_token);
 
             _colors = new List<SolidColorBrush>
             {
@@ -39,15 +44,9 @@ namespace Todo.View
                 new SolidColorBrush(Colors.Blue),
                 new SolidColorBrush(Colors.Purple)
             };
-
-            _tasksCategory = new ObservableCollection<TasksCategory>
-            {
-                new TasksCategory {Title = "Дом", TextColor = _colors[1]},
-                new TasksCategory {Title = "Работа", TextColor = _colors[0]},
-                new TasksCategory {Title = "Учёба", TextColor = _colors[2]},
-                new TasksCategory {Title = "Отдых", TextColor = _colors[3]},
-            };
-            MenuList.ItemsSource = _tasksCategory;
+            Todos = _todoRepository.GetAllTodos().Where(todo => todo.IsCompleted == true).ToList();
+            var tasksList = InitTasks();
+            Tasks = new ObservableCollection<TaskModel>(tasksList);
             TasksList.ItemsSource = Tasks;
         }
         private void TasksList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -63,7 +62,59 @@ namespace Todo.View
             else
                 TaskFullContent.Visibility = Visibility.Hidden;
         }
+        public ObservableCollection<TaskModel> InitTasks()
+        {
+            var tasks = new ObservableCollection<TaskModel>();
+            if (Todos != null && Todos.Any())
+            {
+                foreach (var todo in Todos)
+                {
+                    var taskModel = new TaskModel()
+                    {
+                        Title = todo.Title,
+                        TaskDateTime = DateTimeOffset.FromUnixTimeSeconds(todo.Date).UtcDateTime,
+                        IsDone = todo.IsCompleted,
+                        DisplayTime = todo.Date.ToString(),
+                        TaskText = todo.Description,
+                    };
+                    taskModel.CheckboxColor = Brushes.White;
+                    tasks.Add(taskModel);
+                }
+            }
+            return tasks;
+        }
+        private void TasksButton_Click(object sender, RoutedEventArgs e) => Manager.MainFrame?.GoBack();
 
-        private void TasksButton_Click(object sender, RoutedEventArgs e) => Manager.MainFrame?.Navigate(new MainPage(UserNameTextBlock.Text));
+        private void HomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Todos = _todoRepository.GetAllTodos().Where(todo => todo.IsCompleted == true && todo.Category == "Дом").ToList();
+            var tasksList = InitTasks();
+            Tasks = new ObservableCollection<TaskModel>(tasksList);
+            TasksList.ItemsSource = Tasks;
+        }
+
+        private void WorkButton_Click(object sender, RoutedEventArgs e)
+        {
+            Todos = _todoRepository.GetAllTodos().Where(todo => todo.IsCompleted == true && todo.Category == "Работа").ToList();
+            var tasksList = InitTasks();
+            Tasks = new ObservableCollection<TaskModel>(tasksList);
+            TasksList.ItemsSource = Tasks;
+        }
+
+        private void StudyButton_Click(object sender, RoutedEventArgs e)
+        {
+            Todos = _todoRepository.GetAllTodos().Where(todo => todo.IsCompleted == true && todo.Category == "Учёба").ToList();
+            var tasksList = InitTasks();
+            Tasks = new ObservableCollection<TaskModel>(tasksList);
+            TasksList.ItemsSource = Tasks;
+        }
+
+        private void ChillButton_Click(object sender, RoutedEventArgs e)
+        {
+            Todos = _todoRepository.GetAllTodos().Where(todo => todo.IsCompleted == true && todo.Category == "Отдых").ToList();
+            var tasksList = InitTasks();
+            Tasks = new ObservableCollection<TaskModel>(tasksList);
+            TasksList.ItemsSource = Tasks;
+        }
     }
 }

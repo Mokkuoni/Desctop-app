@@ -38,7 +38,7 @@ namespace Todo.View
                 return;
             }
             else
-                Manager.MainFrame?.Navigate(new MainEmptyPage(user.Name));
+                Manager.MainFrame?.Navigate(new MainEmptyPage(user));
         }
     }
 }

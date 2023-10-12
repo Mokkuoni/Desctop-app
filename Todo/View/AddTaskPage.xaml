@@ -22,7 +22,8 @@
             <Label Content="Название" FontSize="18" />
             <TextBox x:Name="NameTask" Width="342" Height="60" />
             <Label Content="Категория" FontSize="18" Padding="0 32 0 9.77" />
-            <TextBox x:Name="Category" Width="342" Height="60" />
+            <ComboBox x:Name="Category" Width="342" Height="60" SelectionChanged="Category_SelectionChanged">
+            </ComboBox>
             <Label Content="Описание" FontSize="18" Padding="0 32 0 9.77" />
             <TextBox x:Name="Content" Width="342" Height="100" />
             <Button x:Name="AddTask" Content="Создать" Margin="0 30 0 0" Style="{StaticResource BottomAddTasks}" Background="#50AF54" Click="CreateButton_Click"/>

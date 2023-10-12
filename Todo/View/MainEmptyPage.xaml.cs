@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Todo.Responses;
 
 namespace Todo.View
 {
@@ -20,11 +21,13 @@ namespace Todo.View
     /// </summary>
     public partial class MainEmptyPage : Page
     {
-        public MainEmptyPage(string userName)
+        private readonly AuthResponse _authResponse;
+        public MainEmptyPage(AuthResponse response)
         {
             InitializeComponent();
-            username.Text = userName;
+            _authResponse = response;
+            username.Text = response.User.Name;
         }
-        private void CreateTask_Click(object sender, RoutedEventArgs e) => Manager.MainFrame?.Navigate(new AddTaskPage(username.Text));
+        private void CreateTask_Click(object sender, RoutedEventArgs e) => Manager.MainFrame?.Navigate(new AddTaskPage(_authResponse));
     }
 }

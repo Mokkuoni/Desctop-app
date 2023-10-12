@@ -32,18 +32,22 @@ namespace Todo.View
 
         private void Sign_Click(object sender, RoutedEventArgs e)
         {
-            var user = _userRepository.Authorize(Password.Text, post.Text);
-            if (user == null)
+            var authResponse = _userRepository.Authorize(Password.Text, post.Text);
+            if (authResponse == null)
             {
                 MessageBox.Show("Данный пользователь не найден");
                 return;
             }
-            else
+            if (authResponse.access_token != null && authResponse.access_token != null)
             {
-                if (!user.Tasks.Any())
-                    Manager.MainFrame?.Navigate(new MainEmptyPage(user.Name));
+                var todoRepository = new TodoRepository(authResponse.access_token);
+                var user = authResponse.User;
+                user.Todos = todoRepository.GetAllTodos();
+                if (user.Todos == null || !user.Todos.Any())
+                    Manager.MainFrame?.Navigate(new MainEmptyPage(authResponse));
                 else
-                    Manager.MainFrame?.Navigate(new MainPage(user.Name));
+                    Manager.MainFrame?.Navigate(new MainPage(authResponse));
+
             }
         }
     }
