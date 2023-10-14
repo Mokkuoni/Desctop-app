@@ -13,7 +13,7 @@ using static Todo.Contract.ApiRoutes;
 
 namespace Todo.Repository
 {
-    internal class UserRepository
+    public class UserRepository
     {
         public AuthResponse? Authorize(string password, string email)
         {

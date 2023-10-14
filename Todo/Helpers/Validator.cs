@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Todo.Helpers
 {
-    internal class Validator
+    public class Validator
     {
         public static List<string> Errors = new();
 
